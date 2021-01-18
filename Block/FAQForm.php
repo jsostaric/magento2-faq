@@ -5,14 +5,18 @@ use Magento\Framework\View\Element\Template;
 
 class FAQForm extends Template
 {
-
     public function getAction()
     {
         return $this->getUrl(
             'productfaq/product/post',
             [
-                'id' => $this->getRequest()->getParam('id')
+                'id' => $this->getProductId(),
             ]
         );
+    }
+
+    protected function getProductId()
+    {
+        return $this->getRequest()->getParam('id');
     }
 }
