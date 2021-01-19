@@ -4,27 +4,59 @@ namespace Inchoo\ProductFAQ\Controller\Product;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
+use Magento\Framework\Exception\CouldNotSaveException;
 
 class Post extends Action
 {
     protected $customerSession;
 
-    public function __construct(Context $context, Session $customerSession)
-    {
+    /**
+     * @var \Inchoo\ProductFAQ\Api\Data\FaqInterfaceFactory
+     */
+    protected $faqModelFactory;
+
+    /**
+     * @var \Inchoo\ProductFAQ\Api\FaqRepositoryInterface
+     */
+    protected $faqRepository;
+
+    public function __construct(
+        Context $context,
+        Session $customerSession,
+        \Inchoo\ProductFAQ\Api\FaqRepositoryInterface $faqRepository,
+        \Inchoo\ProductFAQ\Api\Data\FaqInterfaceFactory $faqModelFactory
+    ) {
         parent::__construct($context);
         $this->customerSession = $customerSession;
+        $this->faqRepository = $faqRepository;
+        $this->faqModelFactory = $faqModelFactory;
     }
 
     public function execute()
     {
         if (!$this->customerSession->isLoggedIn()) {
             $this->messageManager->addErrorMessage('You need to login before you submit your question');
-            $this->_redirect($this->_redirect->getRefererUrl());
+            return $this->_redirect($this->_redirect->getRefererUrl());
         }
 
-        var_dump($this->getRequest()->getParam('question_field'));
-        $product = (int)$this->getRequest()->getParam('id');
-        $isLoggedIn = $this->customerSession->isLoggedIn();
-        var_dump($isLoggedIn);
+        try {
+            $question_content = $this->getRequest()->getParam('question_field');
+            $userId = (int)$this->customerSession->getId();
+            $productId = (int)$this->getRequest()->getParam('id');
+            $storeId = (int)$this->getRequest()->getParam('storeId');
+
+            $question = $this->faqModelFactory->create();
+            $question->setQuestion($question_content);
+            $question->setStoreId($storeId);
+            $question->setProductId($productId);
+            $question->setUserId($userId);
+            $this->faqRepository->save($question);
+
+            $this->messageManager->addSuccessMessage('Thank you for your Question.');
+        } catch (\Exception $e) {
+            throw new CouldNotSaveException(__($e->getMessage()));
+        }
+
+        return $this->_redirect($this->_redirect->getRefererUrl());
     }
 }

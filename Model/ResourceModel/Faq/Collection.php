@@ -15,4 +15,9 @@ class Collection extends AbstractCollection
             \Inchoo\ProductFAQ\Model\ResourceModel\Faq::class
         );
     }
+
+    public function joinFaqProductTable()
+    {
+        $this->joinTable();
+    }
 }
