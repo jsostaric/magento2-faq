@@ -22,7 +22,7 @@ class Post extends Action
             $this->_redirect($this->_redirect->getRefererUrl());
         }
 
-        var_dump($this->getRequest()->getParam('faq_question'));
+        var_dump($this->getRequest()->getParam('question_field'));
         $product = (int)$this->getRequest()->getParam('id');
         $isLoggedIn = $this->customerSession->isLoggedIn();
         var_dump($isLoggedIn);
