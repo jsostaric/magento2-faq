@@ -4,6 +4,8 @@
 namespace Inchoo\ProductFAQ\Api;
 
 
+use Magento\Framework\Api\SearchCriteriaInterface;
+
 interface FaqRepositoryInterface
 {
     /**
@@ -26,5 +28,14 @@ interface FaqRepositoryInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function delete(Data\FaqInterface $faq);
+
+    /**
+     * Retrieve news matching the specified search criteria
+     *
+     * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
+     * @return \Inchoo\ProductFAQ\Api\Data\FaqSearchResultsInterface
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function getList(SearchCriteriaInterface $searchCriteria);
 
 }

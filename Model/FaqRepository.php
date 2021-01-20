@@ -27,6 +27,8 @@ class FaqRepository implements FaqRepositoryInterface
         $this->faqModelFactory = $faqModelFactory;
         $this->faqResource = $faqResource;
         $this->faqCollectionFactory = $faqCollectionFactory;
+        $this->searchResultsFactory = $searchResultsFactory;
+        $this->collectionProcessor = $collectionProcessor;
     }
 
     public function getById(int $faqId)
@@ -62,10 +64,12 @@ class FaqRepository implements FaqRepositoryInterface
 
     public function getList(SearchCriteriaInterface $searchCriteria)
     {
+        /** @var \Inchoo\ProductFAQ\Model\ResourceModel\Faq\Collection $collection */
         $collection = $this->faqCollectionFactory->create();
 
         $this->collectionProcessor->process($searchCriteria, $collection);
 
+        /** @var Data\FaqSearchResultsInterface $searchResults */
         $searchResults = $this->searchResultsFactory->create();
         $searchResults->setSearchCriteria($searchCriteria);
         $searchResults->setItems($collection->getItems());

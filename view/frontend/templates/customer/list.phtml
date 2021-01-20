@@ -1,0 +1,56 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var \Inchoo\ProductFAQ\Block\Customer\ListCustomer $block */
+?>
+<?php if ($block->getQuestions() && count($block->getQuestions())) : ?>
+    <div class="table-wrapper faq">
+        <table class="data table table-faq" id="my-faq-table">
+            <caption class="table-caption"><?= $block->escapeHtml(__('My Product Questions')) ?></caption>
+            <thead>
+            <tr>
+                <th scope="col" class="col date"><?= $block->escapeHtml(__('Created')) ?></th>
+                <th scope="col" class="col item"><?= $block->escapeHtml(__('Question')) ?></th>
+                <th scope="col" class="col summary"><?= $block->escapeHtml(__('Product Name')) ?></th>
+                <th scope="col" class="col actions">&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($block->getQuestions() as $question): ?>
+                <tr>
+                    <td data-th="<?= $block->escapeHtmlAttr(__('Created')) ?>" class="col date">
+                        <?= $block->escapeHtml($block->dateFormat($question->getCreatedAt())) ?>
+                    </td>
+                    <td data-th="<?= $block->escapeHtmlAttr(__('Question')) ?>" class="col question-content">
+                        <strong class="faq-question">
+                            <?= $block->escapeHtml($question->getQuestionContent()) ?>
+                        </strong>
+                    </td>
+                    <td data-th="<?= $block->escapeHtmlAttr(__('Product Name')) ?>" class="col product-name">
+                        <a href="<?= $block->escapeUrl($block->getProductUrl($question->getProductId())) ?>">
+                            <?= $block->escapeHtml($block->getProductName($question->getProductId())) ?>
+                        </a>
+                    </td>
+                    <td data-th="<?= $block->escapeHtmlAttr(__('Actions')) ?>" class="col actions">
+                        <a href="<?= $block->escapeUrl($block->getProductFaqUrl($question)) ?>" class="action more">
+                            <span><?= $block->escapeHtml(__('See Details')) ?></span>
+                        </a>
+                    </td>
+                </tr>
+                <?php endforeach ?>
+            </tbody>
+        </table>
+    </div>
+<?php else : ?>
+    <div class="message info empty"><span><?= $block->escapeHtml(__('You have submitted no questions.')) ?></span></div>
+<?php endif; ?>
+<div class="actions-toolbar">
+    <div class="secondary">
+        <a class="action back" href="<?= $block->escapeUrl($block->getBackUrl()) ?>">
+            <span><?= $block->escapeHtml(__('Back')) ?></span>
+        </a>
+    </div>
+</div>
