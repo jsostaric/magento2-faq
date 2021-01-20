@@ -38,9 +38,9 @@ class Index extends Action
         if ($navigationBlock = $resultPage->getLayout()->getBlock('customer_account_navigation')) {
             $navigationBlock->setActive('productfaq/customer');
         }
-//        if ($block = $resultPage->getLayout()->getBlock('productfaq_customer_list')) {
-//            $block->setRefererUrl($this->_redirect->getRefererUrl());
-//        }
+        if ($block = $resultPage->getLayout()->getBlock('productfaq_customer_list')) {
+            $block->setRefererUrl($this->_redirect->getRefererUrl());
+        }
 
         //fetch questions associated with user
         $questions = $this->getQuestions('user_id', $this->getUserId());
