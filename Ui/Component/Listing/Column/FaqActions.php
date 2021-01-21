@@ -17,6 +17,7 @@ class FaqActions extends Column
     //** Url path */
     const CMS_URL_PATH_EDIT = 'productfaq/faq/edit';
     const CMS_URL_PATH_DELETE = 'productfaq/faq/delete';
+    const CMS_URL_PATH_VISIBLE = 'productfaq/faq/visible';
 
     /**
      * @var \Magento\Cms\Block\Adminhtml\Page\Grid\Renderer\Action\UrlBuilder
@@ -61,11 +62,13 @@ class FaqActions extends Column
         array $components = [],
         array $data = [],
         $editUrl = self::CMS_URL_PATH_EDIT,
+        $visibleUrl = self::CMS_URL_PATH_VISIBLE,
         \Magento\Cms\ViewModel\Page\Grid\UrlBuilder $scopeUrlBuilder = null
     ) {
         $this->urlBuilder = $urlBuilder;
         $this->actionUrlBuilder = $actionUrlBuilder;
         $this->editUrl = $editUrl;
+        $this->visibleUrl = $visibleUrl;
         parent::__construct($context, $uiComponentFactory, $components, $data);
         $this->scopeUrlBuilder = $scopeUrlBuilder ?: ObjectManager::getInstance()
             ->get(\Magento\Cms\ViewModel\Page\Grid\UrlBuilder::class);
@@ -80,6 +83,12 @@ class FaqActions extends Column
             foreach ($dataSource['data']['items'] as & $item) {
                 $name = $this->getData('name');
                 if (isset($item['faq_id'])) {
+                    $item[$name]['is_listed'] = [
+                        'href' => $this->urlBuilder->getUrl($this->visibleUrl, ['faq_id' => $item['faq_id']]),
+                        'label' => __('Toggle Visible'),
+                        'post' => true,
+                        '__disableTmpl' => true
+                    ];
                     $item[$name]['edit'] = [
                         'href' => $this->urlBuilder->getUrl($this->editUrl, ['faq_id' => $item['faq_id']]),
                         'label' => __('Edit'),

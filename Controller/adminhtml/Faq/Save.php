@@ -4,11 +4,12 @@ namespace Inchoo\ProductFAQ\Controller\Adminhtml\Faq;
 
 use Inchoo\ProductFAQ\Api\FaqRepositoryInterface;
 use Magento\Backend\App\Action;
+use Magento\Framework\Exception\CouldNotSaveException;
 
-class Delete extends Action
+class Save extends Action
 {
     /**
-     * Delete constructor.
+     * Update constructor.
      * @param Action\Context $context
      * @param FaqRepositoryInterface $faqRepository
      */
@@ -18,21 +19,21 @@ class Delete extends Action
         $this->faqRepository = $faqRepository;
     }
 
-    /**
-     * @return bool
-     */
-    public function _isAllowed()
-    {
-        return $this->_authorization->isAllowed('Inchoo_ProductFAQ::productfaq');
-    }
-
     public function execute()
     {
         $id = $this->getRequest()->getParam('faq_id');
 
+        $questionContent = $this->getRequest()->getParam('question_content');
+        $answer = $this->getRequest()->getParam('answer_content');
         if ($id) {
-            $question = $this->faqRepository->getById($id);
-            $question->delete();
+            try {
+                $question = $this->faqRepository->getById($id);
+                $question->setQuestion($questionContent);
+                $question->setAnswerContent($answer);
+                $question->save();
+            } catch (\Exception $e) {
+                throw new CouldNotSaveException(__($e->getMessage()));
+            }
         }
 
         return $this->_redirect('productfaq/faq/');
