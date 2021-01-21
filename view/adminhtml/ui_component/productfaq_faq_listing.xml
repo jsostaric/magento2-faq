@@ -80,7 +80,7 @@
             <argument name="data" xsi:type="array">
                 <item name="options" xsi:type="object">Magento\Config\Model\Config\Source\Yesno</item>
                 <item name="config" xsi:type="array">
-                    <item name="sortOrder" xsi:type="number">60</item>
+                    <item name="sortOrder" xsi:type="number">70</item>
                     <item name="filter" xsi:type="string">select</item>
                     <item name="label" translate="true" xsi:type="string">Listed on Product</item>
                     <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
@@ -91,11 +91,20 @@
                 </item>
             </argument>
         </column>
-        <column name="hasAnswer">
-            <settings>
-                <filter>boolean</filter>
-                <label translate="true">Is Answered</label>
-            </settings>
+        <column name="has_answer">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Magento\Config\Model\Config\Source\Yesno</item>
+                <item name="config" xsi:type="array">
+                    <item name="sortOrder" xsi:type="number">60</item>
+                    <item name="filter" xsi:type="string">select</item>
+                    <item name="label" translate="true" xsi:type="string">Has Answer</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
+                    <item name="dataType" xsi:type="string">select</item>
+                    <item name="editor" xsi:type="array">
+                        <item name="editorType" xsi:type="string">select</item>
+                    </item>
+                </item>
+            </argument>
         </column>
         <actionsColumn name="actions" class="Inchoo\ProductFAQ\Ui\Component\Listing\Column\FaqActions">
             <settings>

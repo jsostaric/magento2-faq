@@ -30,6 +30,14 @@ class DataProvider extends AbstractDataProvider
     public function getData()
     {
         $data = $this->getCollection()->toArray();
+        foreach ($data['items'] as &$item) {
+            if (!$item['answer_content']) {
+                $item['has_answer'] = 0;
+            } else {
+                $item['has_answer'] = 1;
+            }
+        }
+
         return $data;
     }
 }
