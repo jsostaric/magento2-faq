@@ -49,6 +49,13 @@
                     <url path="productfaq/faq/massvisible"/>
                 </settings>
             </action>
+            <action name="delete">
+                <settings>
+                    <type>delete</type>
+                    <label translate="true">Mass Delete</label>
+                    <url path="productfaq/faq/massdelete"/>
+                </settings>
+            </action>
         </massaction>
     </listingToolbar>
 
