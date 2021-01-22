@@ -2,8 +2,10 @@
 /**
  * @var Magento\Catalog\Block\Product\View $block
  */
-$productId = $block->getProduct()->getId();
 ?>
-<div class="block-title"><strong><?= $block->escapeHtml(__('Ask Us a Question')) ?></strong></div>
-<?= $block->getChildHtml() ?>
+
+<?= $block->getChildHtml('faqList') ?>
+
+<?= $block->getChildHtml('faqForm') ?>
+
 
