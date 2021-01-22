@@ -8,13 +8,6 @@
     </argument>
 
     <settings>
-        <buttons>
-            <button name="add">
-                <url path="*/*/create"/>
-                <class>primary</class>
-                <label translate="true">Add New</label>
-            </button>
-        </buttons>
         <spinner>productfaq_faq_columns</spinner>
         <deps>
             <dep>productfaq_faq_listing.productfaq_faq_listing_data_source</dep>
