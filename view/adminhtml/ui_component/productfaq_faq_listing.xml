@@ -8,13 +8,6 @@
     </argument>
 
     <settings>
-        <buttons>
-            <button name="add">
-                <url path="*/*/create"/>
-                <class>primary</class>
-                <label translate="true">Add New</label>
-            </button>
-        </buttons>
         <spinner>productfaq_faq_columns</spinner>
         <deps>
             <dep>productfaq_faq_listing.productfaq_faq_listing_data_source</dep>
@@ -48,8 +41,17 @@
         -->
 
         <paging name="listing_paging"/>
-
+        <massaction name="listing_massaction">
+            <action name="visible">
+                <settings>
+                    <type>update_status</type>
+                    <label translate="true">Toggle Visible</label>
+                    <url path="productfaq/faq/massvisible"/>
+                </settings>
+            </action>
+        </massaction>
     </listingToolbar>
+
 
     <columns name="productfaq_faq_columns">
         <selectionsColumn name="ids">
