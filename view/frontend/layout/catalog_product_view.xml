@@ -9,6 +9,7 @@
                     <argument name="title" xsi:type="string" translate="true">FAQ</argument>
                     <argument name="sort_order" xsi:type="string">101</argument>
                 </arguments>
+                <block class="Inchoo\ProductFAQ\Block\FAQList" name="product.faq.list" as="faqList" template="Inchoo_ProductFAQ::list.phtml" />
                 <block class="Inchoo\ProductFAQ\Block\FAQForm" name="product.faq.form" as="faqForm" template="Inchoo_ProductFAQ::form.phtml" />
             </block>
         </referenceBlock>
