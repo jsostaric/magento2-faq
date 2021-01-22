@@ -52,6 +52,8 @@ class Post extends Action
             $question->setUserId($userId);
             $this->faqRepository->save($question);
 
+            $this->_eventManager->dispatch('inchoo_faq_notification', ['question' => $question]);
+
             $this->messageManager->addSuccessMessage('Thank you for your Question.');
         } catch (\Exception $e) {
             throw new CouldNotSaveException(__($e->getMessage()));
