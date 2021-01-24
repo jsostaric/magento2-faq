@@ -2,8 +2,8 @@
 
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
     <menu>
-        <add id="Inchoo_ProductFAQ::product_faq" title="FAQs" translate="title" sortOrder="100"
+        <add id="Inchoo_ProductFAQ::productfaq" title="FAQs" translate="title" sortOrder="100"
              parent="Magento_Backend::content_elements" action="productfaq/faq/index"
-             module="Inchoo_ProductFAQ" resource="Inchoo_ProductFAQ::product_faq" />
+             module="Inchoo_ProductFAQ" resource="Inchoo_ProductFAQ::productfaq" />
     </menu>
 </config>

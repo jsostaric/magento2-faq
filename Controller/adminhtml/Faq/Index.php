@@ -15,6 +15,11 @@ class Index extends Action
         return $this->_authorization->isAllowed('Inchoo_ProductFAQ::productfaq');
     }
 
+    /**
+     * Index action
+     *
+     * @return \Magento\Backend\Model\View\Result\Page
+     */
     public function execute()
     {
         /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
