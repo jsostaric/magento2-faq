@@ -21,8 +21,14 @@ class MassDelete extends Action
         /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();
 
+        $ids = $this->getRequest()->getParam('selected');
+
+        if(!$ids){
+            $this->messageManager->addErrorMessage('Please select one or more rows');
+            return $resultRedirect->setUrl($this->_redirect->getRefererUrl());
+        }
+
         try {
-            $ids = $this->getRequest()->getParam('selected');
 
             $done = 0;
             foreach ($ids as $id) {

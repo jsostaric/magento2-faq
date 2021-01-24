@@ -6,6 +6,7 @@ use Inchoo\ProductFAQ\Model\FaqRepository;
 use Magento\Backend\App\Action;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Ui\Component\MassAction\Filter;
+use phpDocumentor\Reflection\Types\This;
 
 class MassVisible extends Action
 {
@@ -20,10 +21,15 @@ class MassVisible extends Action
     {
         /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();
+
+        $ids = $this->getRequest()->getParam('selected');
+
+        if(!$ids){
+            $this->messageManager->addErrorMessage('Please select one or more rows');
+            return $resultRedirect->setUrl($this->_redirect->getRefererUrl());
+        }
+
         try {
-            $ids = $this->getRequest()->getParam('selected');
-
-
             $done = 0;
             foreach ($ids as $id) {
                 $item = $this->faqRepository->getById($id);
