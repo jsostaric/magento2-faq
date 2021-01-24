@@ -21,7 +21,7 @@
             </storageConfig>
             <updateUrl path="mui/index/render"/>
         </settings>
-        <aclResource>Inchoo_ProductFAQ::faq</aclResource>
+        <aclResource>Inchoo_ProductFAQ::productfaq</aclResource>
         <dataProvider class="Inchoo\ProductFAQ\Ui\Component\Listing\DataProvider" name="productfaq_faq_listing_data_source">
             <settings>
                 <requestFieldName>id</requestFieldName>
