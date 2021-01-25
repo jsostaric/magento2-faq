@@ -11,7 +11,12 @@ use Magento\Ui\Component\MassAction\Filter;
 
 class MassDelete extends Action
 {
-
+    /**
+     * MassDelete constructor.
+     * @param Action\Context $context
+     * @param Filter $filter
+     * @param CollectionFactory $faqCollectionFactory
+     */
     public function __construct(Action\Context $context, Filter $filter, CollectionFactory $faqCollectionFactory)
     {
         $this->faqCollectionFactory = $faqCollectionFactory;

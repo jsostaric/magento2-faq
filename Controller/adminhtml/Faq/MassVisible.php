@@ -15,7 +15,7 @@ class MassVisible extends Action
      * MassVisible constructor.
      * @param Action\Context $context
      * @param Filter $filter
-     * @param CollectionFactory $collectionFactory
+     * @param CollectionFactory $faqCollectionFactory
      */
     public function __construct(Action\Context $context, Filter $filter, CollectionFactory $faqCollectionFactory)
     {
