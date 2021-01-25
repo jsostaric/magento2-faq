@@ -17,9 +17,9 @@ class MassVisible extends Action
      * @param Filter $filter
      * @param CollectionFactory $collectionFactory
      */
-    public function __construct(Action\Context $context, Filter $filter, CollectionFactory $collectionFactory)
+    public function __construct(Action\Context $context, Filter $filter, CollectionFactory $faqCollectionFactory)
     {
-        $this->collectionFactory = $collectionFactory;
+        $this->faqCollectionFactory = $faqCollectionFactory;
         $this->filter = $filter;
         parent::__construct($context);
     }
@@ -34,7 +34,7 @@ class MassVisible extends Action
         $resultRedirect = $this->resultRedirectFactory->create();
 
         try {
-            $collection = $this->filter->getCollection($this->collectionFactory->create());
+            $collection = $this->filter->getCollection($this->faqCollectionFactory->create());
 
             $done = 0;
 
