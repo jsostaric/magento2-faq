@@ -27,7 +27,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Customer\Model\Session $customerSession, // @codingStandardsIgnoreLine - implemented proxy for session
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         CustomerRepositoryInterface $customerRepository,
         AccountManagementInterface $customerAccountManagement,
