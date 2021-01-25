@@ -54,10 +54,10 @@ class MassVisible extends Action
     }
 
     /**
-     * @param object $item
+     * @param \Inchoo\ProductFAQ\Api\Data\FaqInterface $item
      * @return void
      */
-    protected function toggleVisibility(object $item)
+    protected function toggleVisibility(\Inchoo\ProductFAQ\Api\Data\FaqInterface $item)
     {
         $visible = $item->getIsListed();
 
