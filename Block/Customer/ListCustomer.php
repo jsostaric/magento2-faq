@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Inchoo\ProductFAQ\Block\Customer;
 
 use Magento\Catalog\Model\ProductRepository;
@@ -12,6 +14,17 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     protected $faqRegistry;
     protected $productRepository;
 
+    /**
+     * ListCustomer constructor.
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
+     * @param CustomerRepositoryInterface $customerRepository
+     * @param AccountManagementInterface $customerAccountManagement
+     * @param Registry $faqRegistry
+     * @param ProductRepository $productRepository
+     * @param array $data
+     */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
@@ -34,39 +47,51 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
         $this->productRepository = $productRepository;
     }
 
+    /**
+     * @return mixed|null
+     */
     public function getQuestions()
     {
         return $this->faqRegistry->registry('inchoo_product_faq');
     }
 
-    public function dateFormat($date)
+    /**
+     * @param string $date
+     * @return string
+     */
+    public function dateFormat(string $date)
     {
         return $this->formatDate($date, \IntlDateFormatter::SHORT);
     }
 
-    public function getProductFaqUrl($question)
-    {
-        return $this->getUrl('productfaq/customer/view', ['id' => $question->getFaqId()]);
-    }
-
     /**
-     * Get product URL
-     * @return string
+     * @param string $productId
+     * @return mixed
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function getProductUrl($productId)
+    public function getProductUrl(string $productId)
     {
         $product = $this->getProduct($productId);
 
         return $product->getProductUrl();
     }
 
-    public function getProductName($productId)
+    /**
+     * @param string $productId
+     * @return string|null
+     */
+    public function getProductName(string $productId)
     {
         $product = $this->getProduct($productId);
         return $product->getName();
     }
 
-    protected function getProduct($productId)
+    /**
+     * @param string $productId
+     * @return \Magento\Catalog\Api\Data\ProductInterface|mixed|null
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    protected function getProduct(string $productId)
     {
         return $this->productRepository->getById($productId);
     }

@@ -1,14 +1,9 @@
 <?php
-/**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
-
 /** @var \Inchoo\ProductFAQ\Block\Customer\ListCustomer $block */
 ?>
-<?php if ($block->getQuestions() && count($block->getQuestions())) : ?>
+<?php if ($block->getQuestions() && !empty($block->getQuestions())) : ?>
     <div class="page-wrapper faq">
-        <?php foreach ($block->getQuestions() as $question): ?>
+        <?php foreach ($block->getQuestions() as $question) : ?>
         <div class="title-row">
             <h4 class="title">
                 Question regarding product
@@ -35,7 +30,7 @@
     </div>
 <?php else : ?>
     <div class="message info empty"><span><?= $block->escapeHtml(__('You have submitted no questions.')) ?></span></div>
-<?php endif; ?>
+<?php endif ?>
 <div class="actions-toolbar">
     <div class="secondary">
         <a class="action back" href="<?= $block->escapeUrl($block->getBackUrl()) ?>">

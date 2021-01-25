@@ -1,11 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Inchoo\ProductFAQ\Ui\Component\Listing;
 
 use Magento\Ui\DataProvider\AbstractDataProvider;
 
 class DataProvider extends AbstractDataProvider
 {
+    protected $collectionFactory;
+
     /**
      * DataProvider constructor.
      * @param string $name
@@ -16,17 +20,20 @@ class DataProvider extends AbstractDataProvider
      * @param array $data
      */
     public function __construct(
-        $name,
-        $primaryFieldName,
-        $requestFieldName,
+        string $name,
+        string $primaryFieldName,
+        string $requestFieldName,
         \Inchoo\ProductFAQ\Model\ResourceModel\Faq\CollectionFactory $collectionFactory,
         array $meta = [],
         array $data = []
     ) {
         parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
-        $this->collection = $collectionFactory->create();
+        $this->collectionFactory = $collectionFactory;
     }
 
+    /**
+     * @return array
+     */
     public function getData()
     {
         $data = $this->getCollection()->toArray();
@@ -39,5 +46,18 @@ class DataProvider extends AbstractDataProvider
         }
 
         return $data;
+    }
+
+    /**
+     * overrides Abstract Model getCollection
+     *
+     * @return \Inchoo\ProductFAQ\Model\ResourceModel\Faq\Collection|\Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection
+     */
+    public function getCollection()
+    {
+        if ($this->collection === null) {
+            $this->collection = $this->collectionFactory->create();
+        }
+        return $this->collection;
     }
 }

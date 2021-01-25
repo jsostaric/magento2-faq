@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Inchoo\ProductFAQ\Controller\Adminhtml\Faq;
 
 use Inchoo\ProductFAQ\Api\FaqRepositoryInterface;
@@ -19,6 +21,10 @@ class Save extends Action
         $this->faqRepository = $faqRepository;
     }
 
+    /**
+     * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\ResultInterface
+     * @throws CouldNotSaveException
+     */
     public function execute()
     {
         $id = $this->getRequest()->getParam('faq_id');
@@ -27,7 +33,7 @@ class Save extends Action
         $answer = $this->getRequest()->getParam('answer_content');
         if ($id) {
             try {
-                $question = $this->faqRepository->getById($id);
+                $question = $this->faqRepository->getById((int)$id);
                 $question->setQuestion($questionContent);
                 $question->setAnswerContent($answer);
                 $question->save();

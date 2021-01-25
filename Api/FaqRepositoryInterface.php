@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Inchoo\ProductFAQ\Api;
-
 
 use Magento\Framework\Api\SearchCriteriaInterface;
 
@@ -37,5 +35,4 @@ interface FaqRepositoryInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function getList(SearchCriteriaInterface $searchCriteria);
-
 }

@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Inchoo\ProductFAQ\Ui\Component\Listing\Column;
-
 
 use Magento\Cms\Block\Adminhtml\Page\Grid\Renderer\Action\UrlBuilder;
 use Magento\Framework\App\ObjectManager;
@@ -23,11 +23,6 @@ class FaqActions extends Column
      * @var \Magento\Cms\Block\Adminhtml\Page\Grid\Renderer\Action\UrlBuilder
      */
     protected $actionUrlBuilder;
-
-    /**
-     * @var \Magento\Cms\ViewModel\Page\Grid\UrlBuilder
-     */
-    private $scopeUrlBuilder;
 
     /**
      * @var \Magento\Framework\UrlInterface
@@ -52,7 +47,7 @@ class FaqActions extends Column
      * @param array $components
      * @param array $data
      * @param string $editUrl
-     * @param \Magento\Cms\ViewModel\Page\Grid\UrlBuilder|null $scopeUrlBuilder
+     * @param string $visibleUrl
      */
     public function __construct(
         ContextInterface $context,
@@ -61,21 +56,19 @@ class FaqActions extends Column
         UrlInterface $urlBuilder,
         array $components = [],
         array $data = [],
-        $editUrl = self::CMS_URL_PATH_EDIT,
-        $visibleUrl = self::CMS_URL_PATH_VISIBLE,
-        \Magento\Cms\ViewModel\Page\Grid\UrlBuilder $scopeUrlBuilder = null
+        string $editUrl = self::CMS_URL_PATH_EDIT,
+        string $visibleUrl = self::CMS_URL_PATH_VISIBLE
     ) {
         $this->urlBuilder = $urlBuilder;
         $this->actionUrlBuilder = $actionUrlBuilder;
         $this->editUrl = $editUrl;
         $this->visibleUrl = $visibleUrl;
         parent::__construct($context, $uiComponentFactory, $components, $data);
-        $this->scopeUrlBuilder = $scopeUrlBuilder ?: ObjectManager::getInstance()
-            ->get(\Magento\Cms\ViewModel\Page\Grid\UrlBuilder::class);
     }
 
     /**
-     * @inheritDoc
+     * @param array $dataSource
+     * @return array
      */
     public function prepareDataSource(array $dataSource)
     {

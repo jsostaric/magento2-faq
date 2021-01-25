@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Inchoo\ProductFAQ\Controller\Adminhtml\Faq;
 
 use Inchoo\ProductFAQ\Api\FaqRepositoryInterface;
@@ -26,12 +28,16 @@ class Delete extends Action
         return $this->_authorization->isAllowed('Inchoo_ProductFAQ::productfaq');
     }
 
+    /**
+     * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\ResultInterface
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
     public function execute()
     {
         $id = $this->getRequest()->getParam('faq_id');
 
         if ($id) {
-            $question = $this->faqRepository->getById($id);
+            $question = $this->faqRepository->getById((int)$id);
             $question->delete();
         }
 

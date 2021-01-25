@@ -1,10 +1,11 @@
 <?php
+
 namespace Inchoo\ProductFAQ\Api\Data;
 
 interface FaqInterface
 {
-    CONST FAQ_ID = 'faq_id';
-    CONST QUESTION = 'question_content';
+    const FAQ_ID = 'faq_id';
+    const QUESTION = 'question_content';
 
     /**
      * @return int|null
@@ -12,7 +13,7 @@ interface FaqInterface
     public function getId();
 
     /**
-     * @param string $id
+     * @param int $id
      * @return FaqInterface
      */
     public function setId($id);
@@ -26,5 +27,5 @@ interface FaqInterface
      * @param string $question
      * @return FaqInterface
      */
-    public function setQuestion($question);
+    public function setQuestion(string $question);
 }

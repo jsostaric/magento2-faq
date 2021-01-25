@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Inchoo\ProductFAQ\Controller\Adminhtml\Faq;
 
 use Magento\Backend\App\Action;
@@ -25,7 +27,7 @@ class Index extends Action
         /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
         $resultPage = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
 
-        $resultPage->setActiveMenu('Inchoo_ProductFAQ::productfaq');
+//        $resultPage->setActiveMenu('Inchoo_ProductFAQ::productfaq');
         $resultPage->getConfig()->getTitle()->prepend(__('FAQs'));
 
         return $resultPage;

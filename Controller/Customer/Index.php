@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Inchoo\ProductFAQ\Controller\Customer;
 
 use Inchoo\ProductFAQ\Api\FaqRepositoryInterface;
@@ -17,6 +19,14 @@ class Index extends Action
     protected $customerSession;
     protected $faqRegistry;
 
+    /**
+     * Index constructor.
+     * @param Context $context
+     * @param FaqRepositoryInterface $faqRepository
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param Session $customerSession
+     * @param Registry $faqRegistry
+     */
     public function __construct(
         Context $context,
         FaqRepositoryInterface $faqRepository,
@@ -31,6 +41,9 @@ class Index extends Action
         $this->faqRegistry = $faqRegistry;
     }
 
+    /**
+     * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\ResultInterface|\Magento\Framework\View\Result\Page
+     */
     public function execute()
     {
         /** @var \Magento\Framework\View\Result\Page $resultPage */
@@ -50,13 +63,22 @@ class Index extends Action
         return $resultPage;
     }
 
-    protected function getQuestions($field, $value)
+    /**
+     * @param string $field
+     * @param int $value
+     * @return \Inchoo\ProductFAQ\Api\Data\FaqInterface[]
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    protected function getQuestions(string $field, int $value)
     {
         $searchCriteria = $this->searchCriteriaBuilder->addFilter($field, $value)->create();
 
         return $this->faqRepository->getList($searchCriteria)->getItems();
     }
 
+    /**
+     * @return int
+     */
     protected function getUserId()
     {
         return (int)$this->customerSession->getId();
