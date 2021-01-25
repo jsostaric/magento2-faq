@@ -59,7 +59,6 @@
         </massaction>
     </listingToolbar>
 
-
     <columns name="productfaq_faq_columns">
         <selectionsColumn name="ids">
             <settings>

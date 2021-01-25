@@ -15,7 +15,7 @@ class MassVisible extends Action
      * MassVisible constructor.
      * @param Action\Context $context
      * @param Filter $filter
-     * @param CollectionFactory
+     * @param CollectionFactory $collectionFactory
      */
     public function __construct(Action\Context $context, Filter $filter, CollectionFactory $collectionFactory)
     {
@@ -34,12 +34,12 @@ class MassVisible extends Action
         $resultRedirect = $this->resultRedirectFactory->create();
 
         try {
-            $collection = $this->filter->getCollection();
-            $done = 0;
-            foreach ($collection as $item) {
-                $visible = $item->getIsListed();
-                $item->setVisibility($item, $visible);
+            $collection = $this->filter->getCollection($this->collectionFactory->create());
 
+            $done = 0;
+
+            foreach ($collection->getItems() as $item) {
+                $this->toggleVisibility($item);
                 ++$done;
             }
 
@@ -54,13 +54,13 @@ class MassVisible extends Action
     }
 
     /**
-     * @param \Inchoo\ProductFAQ\Api\Data\FaqInterface $item
-     * @param string $visible
+     * @param object $item
      * @return void
-     * @throws \Magento\Framework\Exception\CouldNotSaveException
      */
-    protected function setVisibility(\Inchoo\ProductFAQ\Api\Data\FaqInterface $item, string $visible)
+    protected function toggleVisibility(object $item)
     {
+        $visible = $item->getIsListed();
+
         if (!$visible) {
             $item->setIsListed(1);
         } else {
@@ -68,14 +68,5 @@ class MassVisible extends Action
         }
 
         $item->save();
-    }
-
-    public function getCollection()
-    {
-        if($this->collection === null){
-            $this->collection = $this->collectionFactory-->create();
-        }
-
-        return $this->collection;
     }
 }
