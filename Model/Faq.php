@@ -25,7 +25,7 @@ class Faq extends \Magento\Framework\Model\AbstractModel implements FaqInterface
     }
 
     /**
-     * @param string $id
+     * @param int $id
      * @return string
      */
     public function setId($id)

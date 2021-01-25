@@ -27,7 +27,7 @@ class DataProvider extends AbstractDataProvider
     ) {
         parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
 
-        $this->collection = $collectionFactory->create();
+        $this->collectionFactory = $collectionFactory;
     }
 
     /**
@@ -43,5 +43,19 @@ class DataProvider extends AbstractDataProvider
         }
 
         return $data;
+    }
+
+    /**
+     * Overrides Abstract Model getCollection() method
+     *
+     * @return \Inchoo\ProductFAQ\Model\ResourceModel\Faq\Collection|\Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection
+     */
+    public function getCollection()
+    {
+        if ($this->collection === null) {
+            $this->collection = $this->collectionFactory->create();
+        }
+
+        return $this->collection;
     }
 }

@@ -25,11 +25,6 @@ class FaqActions extends Column
     protected $actionUrlBuilder;
 
     /**
-     * @var \Magento\Cms\ViewModel\Page\Grid\UrlBuilder
-     */
-    private $scopeUrlBuilder;
-
-    /**
      * @var \Magento\Framework\UrlInterface
      */
     protected $urlBuilder;
@@ -53,7 +48,6 @@ class FaqActions extends Column
      * @param array $data
      * @param string $editUrl
      * @param string $visibleUrl
-     * @param \Magento\Cms\ViewModel\Page\Grid\UrlBuilder|null $scopeUrlBuilder
      */
     public function __construct(
         ContextInterface $context,
@@ -63,16 +57,13 @@ class FaqActions extends Column
         array $components = [],
         array $data = [],
         string $editUrl = self::CMS_URL_PATH_EDIT,
-        string $visibleUrl = self::CMS_URL_PATH_VISIBLE,
-        \Magento\Cms\ViewModel\Page\Grid\UrlBuilder $scopeUrlBuilder = null
+        string $visibleUrl = self::CMS_URL_PATH_VISIBLE
     ) {
         $this->urlBuilder = $urlBuilder;
         $this->actionUrlBuilder = $actionUrlBuilder;
         $this->editUrl = $editUrl;
         $this->visibleUrl = $visibleUrl;
         parent::__construct($context, $uiComponentFactory, $components, $data);
-        $this->scopeUrlBuilder = $scopeUrlBuilder ?: ObjectManager::getInstance()
-            ->get(\Magento\Cms\ViewModel\Page\Grid\UrlBuilder::class);
     }
 
     /**

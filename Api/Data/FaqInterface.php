@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Inchoo\ProductFAQ\Api\Data;
 
 interface FaqInterface
@@ -15,7 +13,7 @@ interface FaqInterface
     public function getId();
 
     /**
-     * @param string $id
+     * @param int $id
      * @return FaqInterface
      */
     public function setId($id);
