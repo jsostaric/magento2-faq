@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Inchoo\ProductFAQ\Controller\Adminhtml\Faq;
 
-use Inchoo\ProductFAQ\Model\FaqRepository;
+use Inchoo\ProductFAQ\Model\ResourceModel\Faq\CollectionFactory;
 use Magento\Backend\App\Action;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Ui\Component\MassAction\Filter;
@@ -15,11 +15,11 @@ class MassVisible extends Action
      * MassVisible constructor.
      * @param Action\Context $context
      * @param Filter $filter
-     * @param FaqRepository $faqRepository
+     * @param CollectionFactory
      */
-    public function __construct(Action\Context $context, Filter $filter, FaqRepository $faqRepository)
+    public function __construct(Action\Context $context, Filter $filter, CollectionFactory $collectionFactory)
     {
-        $this->faqRepository = $faqRepository;
+        $this->collectionFactory = $collectionFactory;
         $this->filter = $filter;
         parent::__construct($context);
     }
@@ -33,19 +33,12 @@ class MassVisible extends Action
         /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();
 
-        $ids = $this->getRequest()->getParam('selected');
-
-        if (!$ids) {
-            $this->messageManager->addErrorMessage('Please select one or more rows');
-            return $resultRedirect->setUrl($this->_redirect->getRefererUrl());
-        }
-
         try {
+            $collection = $this->filter->getCollection();
             $done = 0;
-            foreach ($ids as $id) {
-                $item = $this->faqRepository->getById((int)$id);
+            foreach ($collection as $item) {
                 $visible = $item->getIsListed();
-                $this->setVisibility($item, $visible);
+                $item->setVisibility($item, $visible);
 
                 ++$done;
             }
@@ -74,6 +67,15 @@ class MassVisible extends Action
             $item->setIsListed(0);
         }
 
-        $this->faqRepository->save($item);
+        $item->save();
+    }
+
+    public function getCollection()
+    {
+        if($this->collection === null){
+            $this->collection = $this->collectionFactory-->create();
+        }
+
+        return $this->collection;
     }
 }
