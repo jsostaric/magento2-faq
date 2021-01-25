@@ -13,7 +13,8 @@ interface FaqInterface
     public function getId();
 
     /**
-     * @param int $id
+     * @codingStandardsIgnoreLine - id cannot be set to particular type
+     * @param mixed $id
      * @return FaqInterface
      */
     public function setId($id);

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Inchoo\ProductFAQ\Controller\Adminhtml\Faq;
 
-use Inchoo\ProductFAQ\Model\FaqRepository;
+use Inchoo\ProductFAQ\Model\ResourceModel\Faq\CollectionFactory;
 use Magento\Backend\App\Action;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Ui\Component\MassAction\Filter;
@@ -15,11 +15,11 @@ class MassVisible extends Action
      * MassVisible constructor.
      * @param Action\Context $context
      * @param Filter $filter
-     * @param FaqRepository $faqRepository
+     * @param CollectionFactory $faqCollectionFactory
      */
-    public function __construct(Action\Context $context, Filter $filter, FaqRepository $faqRepository)
+    public function __construct(Action\Context $context, Filter $filter, CollectionFactory $faqCollectionFactory)
     {
-        $this->faqRepository = $faqRepository;
+        $this->faqCollectionFactory = $faqCollectionFactory;
         $this->filter = $filter;
         parent::__construct($context);
     }
@@ -33,20 +33,13 @@ class MassVisible extends Action
         /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();
 
-        $ids = $this->getRequest()->getParam('selected');
-
-        if (!$ids) {
-            $this->messageManager->addErrorMessage('Please select one or more rows');
-            return $resultRedirect->setUrl($this->_redirect->getRefererUrl());
-        }
-
         try {
-            $done = 0;
-            foreach ($ids as $id) {
-                $item = $this->faqRepository->getById((int)$id);
-                $visible = $item->getIsListed();
-                $this->setVisibility($item, $visible);
+            $collection = $this->filter->getCollection($this->faqCollectionFactory->create());
 
+            $done = 0;
+
+            foreach ($collection->getItems() as $item) {
+                $this->toggleVisibility($item);
                 ++$done;
             }
 
@@ -62,18 +55,18 @@ class MassVisible extends Action
 
     /**
      * @param \Inchoo\ProductFAQ\Api\Data\FaqInterface $item
-     * @param string $visible
      * @return void
-     * @throws \Magento\Framework\Exception\CouldNotSaveException
      */
-    protected function setVisibility(\Inchoo\ProductFAQ\Api\Data\FaqInterface $item, string $visible)
+    protected function toggleVisibility(\Inchoo\ProductFAQ\Api\Data\FaqInterface $item)
     {
+        $visible = $item->getIsListed();
+
         if (!$visible) {
             $item->setIsListed(1);
         } else {
             $item->setIsListed(0);
         }
 
-        $this->faqRepository->save($item);
+        $item->save();
     }
 }

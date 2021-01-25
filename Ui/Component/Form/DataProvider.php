@@ -36,9 +36,12 @@ class DataProvider extends AbstractDataProvider
     public function getData()
     {
         $data = [];
-        $dataObject = $this->getCollection()->getFirstItem();
+        $dataObject = $this->getCollection()
+            ->setPageSize(1)
+            ->setCurPage(1)
+            ->getFirstItem(); // @codingStandardsIgnoreLine - we limit by page size
 
-        if ($dataObject->getId()) {
+        if ($dataObject->getFaqId()) {
             $data[$dataObject->getId()] = $dataObject->toArray();
         }
 

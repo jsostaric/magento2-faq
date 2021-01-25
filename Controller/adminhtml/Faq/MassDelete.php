@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Inchoo\ProductFAQ\Controller\Adminhtml\Faq;
 
-use Inchoo\ProductFAQ\Model\FaqRepository;
+use Inchoo\ProductFAQ\Model\ResourceModel\Faq\CollectionFactory;
 use Magento\Backend\App\Action;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Ui\Component\MassAction\Filter;
@@ -15,11 +15,11 @@ class MassDelete extends Action
      * MassDelete constructor.
      * @param Action\Context $context
      * @param Filter $filter
-     * @param FaqRepository $faqRepository
+     * @param CollectionFactory $faqCollectionFactory
      */
-    public function __construct(Action\Context $context, Filter $filter, FaqRepository $faqRepository)
+    public function __construct(Action\Context $context, Filter $filter, CollectionFactory $faqCollectionFactory)
     {
-        $this->faqRepository = $faqRepository;
+        $this->faqCollectionFactory = $faqCollectionFactory;
         $this->filter = $filter;
         parent::__construct($context);
     }
@@ -33,19 +33,11 @@ class MassDelete extends Action
         /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();
 
-        $ids = $this->getRequest()->getParam('selected');
-
-        if (!$ids) {
-            $this->messageManager->addErrorMessage('Please select one or more rows');
-            return $resultRedirect->setUrl($this->_redirect->getRefererUrl());
-        }
-
         try {
+            $collection = $this->filter->getCollection($this->faqCollectionFactory->create());
             $done = 0;
-            foreach ($ids as $id) {
-                $item = $this->faqRepository->getById((int)$id);
+            foreach ($collection as $item) {
                 $this->deleteItem($item);
-
                 ++$done;
             }
 
@@ -66,6 +58,6 @@ class MassDelete extends Action
      */
     protected function deleteItem(\Inchoo\ProductFAQ\Api\Data\FaqInterface $item)
     {
-        $this->faqRepository->delete($item);
+        $item->delete();
     }
 }
