@@ -37,7 +37,7 @@ class Delete extends Action
         $id = $this->getRequest()->getParam('faq_id');
 
         if ($id) {
-            $question = $this->faqRepository->getById($id);
+            $question = $this->faqRepository->getById((int)$id);
             $question->delete();
         }
 

@@ -33,7 +33,7 @@ class Save extends Action
         $answer = $this->getRequest()->getParam('answer_content');
         if ($id) {
             try {
-                $question = $this->faqRepository->getById($id);
+                $question = $this->faqRepository->getById((int)$id);
                 $question->setQuestion($questionContent);
                 $question->setAnswerContent($answer);
                 $question->save();

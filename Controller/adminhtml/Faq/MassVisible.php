@@ -45,13 +45,7 @@ class MassVisible extends Action
             foreach ($ids as $id) {
                 $item = $this->faqRepository->getById((int)$id);
                 $visible = $item->getIsListed();
-                if (!$visible) {
-                    $item->setIsListed(1);
-                } else {
-                    $item->setIsListed(0);
-                }
-
-                $this->faqRepository->save($item);
+                $this->setVisibility($item, $visible);
 
                 ++$done;
             }
@@ -64,5 +58,22 @@ class MassVisible extends Action
         }
 
         return $resultRedirect->setUrl($this->_redirect->getRefererUrl());
+    }
+
+    /**
+     * @param \Inchoo\ProductFAQ\Api\Data\FaqInterface $item
+     * @param string $visible
+     * @return void
+     * @throws \Magento\Framework\Exception\CouldNotSaveException
+     */
+    protected function setVisibility(\Inchoo\ProductFAQ\Api\Data\FaqInterface $item, string $visible)
+    {
+        if (!$visible) {
+            $item->setIsListed(1);
+        } else {
+            $item->setIsListed(0);
+        }
+
+        $this->faqRepository->save($item);
     }
 }

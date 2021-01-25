@@ -31,7 +31,7 @@ class Visible extends Action
 
         if ($id) {
             try {
-                $toggleVisibilityOnPage = $this->faqRepository->getById($id);
+                $toggleVisibilityOnPage = $this->faqRepository->getById((int)$id);
 
                 $visible = $toggleVisibilityOnPage->getIsListed();
 

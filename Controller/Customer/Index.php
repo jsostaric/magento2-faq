@@ -65,11 +65,11 @@ class Index extends Action
 
     /**
      * @param string $field
-     * @param string $value
+     * @param int $value
      * @return \Inchoo\ProductFAQ\Api\Data\FaqInterface[]
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    protected function getQuestions(string $field, string $value)
+    protected function getQuestions(string $field, int $value)
     {
         $searchCriteria = $this->searchCriteriaBuilder->addFilter($field, $value)->create();
 

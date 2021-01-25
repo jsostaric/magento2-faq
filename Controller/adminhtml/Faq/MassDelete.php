@@ -43,8 +43,8 @@ class MassDelete extends Action
         try {
             $done = 0;
             foreach ($ids as $id) {
-                $item = $this->faqRepository->getById($id);
-                $this->faqRepository->delete($item);
+                $item = $this->faqRepository->getById((int)$id);
+                $this->deleteItem($item);
 
                 ++$done;
             }
@@ -57,5 +57,15 @@ class MassDelete extends Action
         }
 
         return $resultRedirect->setUrl($this->_redirect->getRefererUrl());
+    }
+
+    /**
+     * @param \Inchoo\ProductFAQ\Api\Data\FaqInterface $item
+     * @return void
+     * @throws \Magento\Framework\Exception\CouldNotDeleteException
+     */
+    protected function deleteItem(\Inchoo\ProductFAQ\Api\Data\FaqInterface $item)
+    {
+        $this->faqRepository->delete($item);
     }
 }
