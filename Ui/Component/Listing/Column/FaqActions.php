@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Inchoo\ProductFAQ\Ui\Component\Listing\Column;
-
 
 use Magento\Cms\Block\Adminhtml\Page\Grid\Renderer\Action\UrlBuilder;
 use Magento\Framework\App\ObjectManager;
@@ -52,6 +52,7 @@ class FaqActions extends Column
      * @param array $components
      * @param array $data
      * @param string $editUrl
+     * @param string $visibleUrl
      * @param \Magento\Cms\ViewModel\Page\Grid\UrlBuilder|null $scopeUrlBuilder
      */
     public function __construct(
@@ -61,8 +62,8 @@ class FaqActions extends Column
         UrlInterface $urlBuilder,
         array $components = [],
         array $data = [],
-        $editUrl = self::CMS_URL_PATH_EDIT,
-        $visibleUrl = self::CMS_URL_PATH_VISIBLE,
+        string $editUrl = self::CMS_URL_PATH_EDIT,
+        string $visibleUrl = self::CMS_URL_PATH_VISIBLE,
         \Magento\Cms\ViewModel\Page\Grid\UrlBuilder $scopeUrlBuilder = null
     ) {
         $this->urlBuilder = $urlBuilder;
@@ -75,7 +76,8 @@ class FaqActions extends Column
     }
 
     /**
-     * @inheritDoc
+     * @param array $dataSource
+     * @return array
      */
     public function prepareDataSource(array $dataSource)
     {

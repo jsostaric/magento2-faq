@@ -4,11 +4,9 @@
 $list = $block->getFAQList();
 ?>
 
-<?php
-foreach ($list as $item):
-    if($item->getAnswerContent()): ?>
-    <p><strong class="question">Q: <?= $item->getQuestion() ?></strong></p>
-    <p><i class="answer">A: <?= $item->getAnswerContent() ?></i></p>
-<?php
-    endif;
-endforeach ?>
+<?php foreach ($list as $item) : ?>
+    <?php if ($block->escapeHtml($item->getAnswerContent())) : ?>
+            <p><strong class="question">Q: <?= $block->escapeHtml($item->getQuestion()) ?></strong></p>
+            <p><i class="answer">A: <?= $block->escapeHtml($item->getAnswerContent()) ?></i></p>
+    <?php endif ?>
+<?php endforeach ?>

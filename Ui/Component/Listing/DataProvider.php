@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Inchoo\ProductFAQ\Ui\Component\Listing;
 
 use Magento\Ui\DataProvider\AbstractDataProvider;
@@ -16,9 +18,9 @@ class DataProvider extends AbstractDataProvider
      * @param array $data
      */
     public function __construct(
-        $name,
-        $primaryFieldName,
-        $requestFieldName,
+        string $name,
+        string $primaryFieldName,
+        string $requestFieldName,
         \Inchoo\ProductFAQ\Model\ResourceModel\Faq\CollectionFactory $collectionFactory,
         array $meta = [],
         array $data = []
@@ -27,6 +29,9 @@ class DataProvider extends AbstractDataProvider
         $this->collection = $collectionFactory->create();
     }
 
+    /**
+     * @return array
+     */
     public function getData()
     {
         $data = $this->getCollection()->toArray();

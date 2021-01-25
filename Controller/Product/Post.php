@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Inchoo\ProductFAQ\Controller\Product;
 
 use Magento\Customer\Model\Session;
@@ -20,6 +23,13 @@ class Post extends Action
      */
     protected $faqRepository;
 
+    /**
+     * Post constructor.
+     * @param Context $context
+     * @param Session $customerSession
+     * @param \Inchoo\ProductFAQ\Api\FaqRepositoryInterface $faqRepository
+     * @param \Inchoo\ProductFAQ\Api\Data\FaqInterfaceFactory $faqModelFactory
+     */
     public function __construct(
         Context $context,
         Session $customerSession,
@@ -32,6 +42,10 @@ class Post extends Action
         $this->faqModelFactory = $faqModelFactory;
     }
 
+    /**
+     * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\ResultInterface
+     * @throws CouldNotSaveException
+     */
     public function execute()
     {
         if (!$this->customerSession->isLoggedIn()) {
